@@ -1,26 +1,52 @@
 import 'package:flower_shop/logic/clients/firebase_client.dart';
+import 'package:flower_shop/logic/models/alert_model.dart';
+import 'package:rxdart/rxdart.dart';
 
 class LoginBloc implements LoginBlocAbstract {
   LoginBloc({required this.client}) {
     checkUser();
   }
   final FirebaseClient client;
+  String username = '';
+  String password = '';
+  final loginSubject = PublishSubject<bool>();
+  final errorSubject = BehaviorSubject<AlertModel>();
+
   @override
   Future<void> checkUser() async {}
 
   @override
-  Future<void> login() async {}
+  Future<bool> login() async {
+    return true;
+  }
 
   @override
   Future<void> signUp() async {}
 
   @override
-  Future<void> toNextScreen() async {}
+  Future<void> toNextScreen() async {
+    loginSubject.add(true);
+  }
+
+  Future<void> loginAsGuest() async {
+    toNextScreen();
+  }
+
+  Future<void> loginByUsername() async {
+    await login().then((res) async {
+      if (res) {
+        await toNextScreen();
+        return;
+      }
+      errorSubject
+          .add(AlertModel(title: "Уучлаарай", body: "Буруу нэвтрэх нэр"));
+    });
+  }
 }
 
 abstract class LoginBlocAbstract {
   Future<void> checkUser();
-  Future<void> login();
+  Future<bool> login();
   Future<void> signUp();
   Future<void> toNextScreen();
 }
