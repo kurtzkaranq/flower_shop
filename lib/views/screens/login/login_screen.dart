@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flower_shop/logic/bloc/login_bloc.dart';
 import 'package:flower_shop/logic/clients/firebase_client.dart';
 import 'package:flower_shop/utils/fs_textstyle.dart';
 import 'package:flower_shop/views/components/fs_button.dart';
+import 'package:flower_shop/views/screens/home/home_screen.dart';
+import 'package:flower_shop/views/screens/tabbar/tabbar_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,9 +19,27 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  late final StreamSubscription nextListener;
   LoginBloc bloc = LoginBloc(
     client: FirebaseClient(),
   );
+  @override
+  void dispose() {
+    nextListener.cancel();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    nextListener = bloc.loginSubject.listen((value) {
+      if (value) {
+        Navigator.pushNamed(context, TabbarScreen.routeName);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

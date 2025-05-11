@@ -1,6 +1,7 @@
 import 'package:flower_shop/routes/main_route.dart';
 import 'package:flower_shop/views/screens/home/home_screen.dart';
 import 'package:flower_shop/views/screens/login/login_screen.dart';
+import 'package:flower_shop/views/screens/tabbar/tabbar_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeRoutes implements MainRoute {
@@ -11,9 +12,9 @@ class HomeRoutes implements MainRoute {
         return MaterialPageRoute(builder: (context) {
           return LoginScreen();
         });
-      case HomeScreen.routeName:
+      case TabbarScreen.routeName:
         return MaterialPageRoute(builder: (context) {
-          return HomeScreen();
+          return TabbarScreen();
         });
       default:
         return null;
