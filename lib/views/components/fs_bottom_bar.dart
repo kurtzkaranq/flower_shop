@@ -1,12 +1,18 @@
+import 'package:flower_shop/logic/bloc/tabbar/tabbar_bloc.dart';
 import 'package:flower_shop/utils/fs_color.dart';
 import 'package:flower_shop/utils/fs_textstyle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class FsBottomBar extends StatefulWidget {
-  const FsBottomBar({super.key, this.selectedIndex = 0, required this.onClick});
+  const FsBottomBar(
+      {super.key,
+      this.selectedIndex = 0,
+      required this.onClick,
+      required this.items});
   final int selectedIndex;
   final Function(int index) onClick;
+  final List<TabbarModel> items;
 
   @override
   State<FsBottomBar> createState() => _FsBottomBarState();
@@ -25,37 +31,15 @@ class _FsBottomBarState extends State<FsBottomBar> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          TabbarButton(
-            isSelected: widget.selectedIndex == 0,
-            onClick: () {
-              widget.onClick(0);
-            },
-            title: "Home",
-          ),
-          TabbarButton(
-              isSelected: widget.selectedIndex == 1,
-              title: "Shop",
+          for (int i = 0; i < widget.items.length; i++)
+            TabbarButton(
+              isSelected: widget.selectedIndex == i,
               onClick: () {
-                widget.onClick(1);
-              }),
-          TabbarButton(
-              title: "Favorites",
-              isSelected: widget.selectedIndex == 2,
-              onClick: () {
-                widget.onClick(2);
-              }),
-          TabbarButton(
-              title: "Cart",
-              isSelected: widget.selectedIndex == 3,
-              onClick: () {
-                widget.onClick(3);
-              }),
-          TabbarButton(
-              title: "Account",
-              isSelected: widget.selectedIndex == 4,
-              onClick: () {
-                widget.onClick(4);
-              }),
+                widget.onClick(i);
+              },
+              title: widget.items[i].name,
+              path: widget.items[i].path,
+            ),
         ],
       ),
     );
@@ -68,11 +52,12 @@ class TabbarButton extends StatelessWidget {
     required this.isSelected,
     required this.onClick,
     required this.title,
+    required this.path,
   });
   final bool isSelected;
   final Function onClick;
   final String title;
-
+  final String path;
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
@@ -84,10 +69,13 @@ class TabbarButton extends StatelessWidget {
         height: 60,
         child: Column(
           children: [
-            const SizedBox(
+            SizedBox(
               height: 24,
               width: 42,
-              child: Placeholder(),
+              child: Image.asset(
+                path,
+                color: isSelected ? Colors.amber : null,
+              ),
             ),
             const SizedBox(
               height: 4,

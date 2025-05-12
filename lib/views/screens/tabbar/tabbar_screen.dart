@@ -1,5 +1,6 @@
 import 'package:flower_shop/logic/bloc/tabbar/tabbar_bloc.dart';
 import 'package:flower_shop/views/components/fs_bottom_bar.dart';
+import 'package:flower_shop/views/screens/cart/cart_detail.dart';
 import 'package:flower_shop/views/screens/cart/cart_screen.dart';
 import 'package:flower_shop/views/screens/favorite/favorite_screen.dart';
 import 'package:flower_shop/views/screens/home/home_screen.dart';
@@ -24,9 +25,8 @@ class _TabbarScreenState extends State<TabbarScreen> {
     bloc.selectedIndex.add(0);
     controller = [
       HomeScreen(),
-      ShopScreen(),
       FavoriteScreen(),
-      CartScreen(),
+      CartDetail(),
       ProfileScreen(),
     ];
   }
@@ -41,13 +41,15 @@ class _TabbarScreenState extends State<TabbarScreen> {
             canPop: false,
             child: Scaffold(
               extendBody: true,
-              backgroundColor: Colors.transparent,
-              body: controller[tabSnap.data!],
+              body: Container(
+                child: controller[tabSnap.data!],
+              ),
               bottomNavigationBar: ClipRRect(
                 clipBehavior: Clip.hardEdge,
                 child: FsBottomBar(
                   selectedIndex: tabSnap.data!,
                   onClick: bloc.selectedIndex.add,
+                  items: bloc.icons,
                 ),
               ),
             ),

@@ -9,6 +9,5 @@ export 'search_model.dart';
 export 'user_model.dart';
 export 'contact_model.dart';
 export 'delivery_info_model.dart';
-export 'favorite_model.dart';
 export 'payment_info_model.dart';
 export 'shipping_model.dart';

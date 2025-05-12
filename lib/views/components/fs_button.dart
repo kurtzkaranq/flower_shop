@@ -1,6 +1,6 @@
 import 'package:flower_shop/utils/fs_color.dart';
 import 'package:flower_shop/utils/fs_textstyle.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 enum FsButtonType {
   secondary,
@@ -64,19 +64,23 @@ class FsButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          border: Border.all(
-            color: type.buttonOutline ?? type.backgroundColor,
-          ),
-          borderRadius: BorderRadius.circular(
-            24,
-          )),
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: onClick,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: type.backgroundColor,
-          padding: const EdgeInsets.symmetric(vertical: 16),
+        border: Border.all(
+          color: type.buttonOutline ?? type.backgroundColor,
         ),
+        borderRadius: BorderRadius.circular(
+          24,
+        ),
+      ),
+      width: double.infinity,
+      child: CupertinoButton(
+        color: type.backgroundColor,
+        onPressed: onClick,
+        borderRadius: BorderRadius.circular(
+          24,
+        ),
+        // style: ElevatedButton.styleFrom(
+        //   backgroundColor: type.backgroundColor,
+        // ),
         child: Text(
           title,
           style: type.textStyle,

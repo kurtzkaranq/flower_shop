@@ -1,9 +1,11 @@
-import 'package:flower_shop/utils/fs_color.dart';
+import 'package:flower_shop/logic/bloc/home/home_bloc.dart';
+import 'package:flower_shop/logic/mixin/product_mixin.dart';
 import 'package:flower_shop/utils/fs_textstyle.dart';
 import 'package:flower_shop/views/components/fs_bottom_notch.dart';
+import 'package:flower_shop/views/components/fs_category.dart';
 import 'package:flower_shop/views/components/fs_input.dart';
+import 'package:flower_shop/views/components/fs_product.dart';
 import 'package:flower_shop/views/components/fs_title.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,12 +16,17 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with ProductMixin<HomeScreen> {
+  final HomeBloc bloc = HomeBloc();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 60),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 20,
+        ),
         child: SizedBox(
           width: double.infinity,
           child: Column(
@@ -54,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               FsTitle(
                 onClick: () {
-                  print("aa");
+                  toProductsScreen("");
                 },
                 subtitle: "View all",
                 title: "Special offers",
@@ -82,19 +89,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    for (int i = 0; i < 12; i++)
+                    for (int i = 0; i < bloc.categories.length; i++)
                       // Rounded items
-                      Container(
-                        width: 40,
-                        margin: const EdgeInsets.all(4),
-                        child: Column(
-                          children: [
-                            SizedBox(height: 40, child: Placeholder()),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text("name")
-                          ],
+                      GestureDetector(
+                        onTap: () {
+                          toProductsScreen("");
+                        },
+                        child: FsCategory(
+                          categoryModel: bloc.categories[i],
                         ),
                       )
                   ],
@@ -105,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               FsTitle(
                 onClick: () {
-                  print("aa");
+                  toProductsScreen("trends");
                 },
                 subtitle: "View all",
                 title: "Trends & Popular now",
@@ -117,49 +119,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    for (int i = 0; i < 12; i++)
+                    for (int i = 0; i < bloc.trends.length; i++)
                       // Rounded items
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                            12,
-                          ),
-                          border: Border.all(
-                            width: 1,
-                            color: FsColor.lighterGreen,
-                          ),
-                        ),
-                        width: 136,
-                        height: 150,
-                        margin: const EdgeInsets.all(4),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 90,
-                              child: Placeholder(),
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              "name",
-                              style: FsTextstyle.header.copyWith(
-                                fontSize: 12,
-                                color: Colors.black,
-                              ),
-                            ),
-                            const Spacer(),
-                            Text(
-                              "price",
-                              style: FsTextstyle.header.copyWith(
-                                fontSize: 16,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                          ],
+                      GestureDetector(
+                        onTap: () {
+                          toProductDetailScreen(bloc.trends[i]);
+                        },
+                        child: FsProduct(
+                          model: bloc.trends[i],
                         ),
                       )
                   ],
@@ -170,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               FsTitle(
                 onClick: () {
-                  print("aa");
+                  toProductsScreen("halloween");
                 },
                 subtitle: "View all",
                 title: "Halloween theme",
@@ -182,49 +149,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    for (int i = 0; i < 12; i++)
+                    for (int i = 0; i < bloc.halloween.length; i++)
                       // Rounded items
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                            12,
-                          ),
-                          border: Border.all(
-                            width: 1,
-                            color: FsColor.lighterGreen,
-                          ),
-                        ),
-                        width: 136,
-                        height: 150,
-                        margin: const EdgeInsets.all(4),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 90,
-                              child: Placeholder(),
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              "name",
-                              style: FsTextstyle.header.copyWith(
-                                fontSize: 12,
-                                color: Colors.black,
-                              ),
-                            ),
-                            const Spacer(),
-                            Text(
-                              "price",
-                              style: FsTextstyle.header.copyWith(
-                                fontSize: 16,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                          ],
+                      GestureDetector(
+                        onTap: () {
+                          toProductDetailScreen(bloc.halloween[i]);
+                        },
+                        child: FsProduct(
+                          model: bloc.halloween[i],
                         ),
                       )
                   ],
