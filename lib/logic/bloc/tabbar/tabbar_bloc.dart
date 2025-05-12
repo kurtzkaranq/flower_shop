@@ -9,10 +9,6 @@ class TabbarBloc {
         path: "assets/icons/ic_home.png",
       ),
       TabbarModel(
-        name: "Favorites",
-        path: "assets/icons/ic_heart.png",
-      ),
-      TabbarModel(
         name: "Cart",
         path: "assets/icons/ic_shop.png",
       ),

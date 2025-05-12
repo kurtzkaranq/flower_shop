@@ -1,5 +1,6 @@
 import 'package:flower_shop/logic/clients/firebase_client.dart';
 import 'package:flower_shop/logic/models/alert_model.dart';
+import 'package:flower_shop/utils/sync_data.dart';
 import 'package:rxdart/rxdart.dart';
 
 class LoginBloc implements LoginBlocAbstract {
@@ -17,7 +18,7 @@ class LoginBloc implements LoginBlocAbstract {
 
   @override
   Future<bool> login() async {
-    return true;
+    return username == "testuser" && password == "Qwer@123";
   }
 
   @override
@@ -35,6 +36,7 @@ class LoginBloc implements LoginBlocAbstract {
   Future<void> loginByUsername() async {
     await login().then((res) async {
       if (res) {
+        SyncData().username = username;
         await toNextScreen();
         return;
       }

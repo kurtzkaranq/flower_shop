@@ -10,4 +10,12 @@ class CategoryModel {
     required this.path,
     this.products = const [],
   });
+
+  factory CategoryModel.fromMap(Map<String, dynamic> map) {
+    return CategoryModel(
+      name: map['name'] ?? '',
+      path: map['path'] ?? '',
+      // products will be filled separately
+    );
+  }
 }

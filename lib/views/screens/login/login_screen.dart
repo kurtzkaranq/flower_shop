@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flower_shop/logic/bloc/login_bloc.dart';
 import 'package:flower_shop/logic/clients/firebase_client.dart';
+import 'package:flower_shop/logic/models/alert_model.dart';
 import 'package:flower_shop/utils/fs_textstyle.dart';
 import 'package:flower_shop/views/components/fs_button.dart';
-import 'package:flower_shop/views/screens/home/home_screen.dart';
 import 'package:flower_shop/views/screens/tabbar/tabbar_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +19,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late final StreamSubscription nextListener;
+  late final StreamSubscription nextListener, errorListener;
   LoginBloc bloc = LoginBloc(
     client: FirebaseClient(),
   );
@@ -32,10 +32,22 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-
+    errorListener = bloc.errorSubject.listen((value) {
+      final dialog = FsAlert(
+        context: context,
+        type: FsAlertType.information,
+        body: value.body,
+        title: value.title,
+      );
+      dialog.show();
+    });
     nextListener = bloc.loginSubject.listen((value) {
       if (value) {
-        Navigator.pushNamed(context, TabbarScreen.routeName);
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          TabbarScreen.routeName,
+          ModalRoute.withName(TabbarScreen.routeName),
+        );
       }
     });
   }
@@ -79,8 +91,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 20),
                   TextField(
+                    onChanged: (value) {
+                      bloc.username = value;
+                    },
                     decoration: InputDecoration(
-                      hintText: 'Email address',
+                      hintText: 'Username',
                       filled: true,
                       fillColor: const Color(0xFFF5F5F5),
                       border: OutlineInputBorder(
@@ -91,6 +106,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 16),
                   TextField(
+                    onChanged: (value) {
+                      bloc.password = value;
+                    },
                     obscureText: true,
                     decoration: InputDecoration(
                       hintText: 'Password',

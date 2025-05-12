@@ -25,7 +25,6 @@ class _TabbarScreenState extends State<TabbarScreen> {
     bloc.selectedIndex.add(0);
     controller = [
       HomeScreen(),
-      FavoriteScreen(),
       CartDetail(),
       ProfileScreen(),
     ];

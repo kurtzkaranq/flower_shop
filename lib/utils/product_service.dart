@@ -19,32 +19,18 @@ class ProductService {
   }
 
   static ProductModel? selectedProduct;
-  static ProductModel get getSelectedProduct => selectedProduct ?? RedRose();
+  static ProductModel get getSelectedProduct => selectedProduct!;
 
-  static List<CategoryModel> get categories => [
-        WeddingCategory(),
-        BoxCategory(),
-        BirthdayCategory(),
-        RosesCategory(),
-        ClassicCategory(),
-        HalloweenCategory(),
-      ];
-  static List<ProductModel> get trends => [
-        RedRose(),
-        Bouquet(),
-        Pastel(),
-        BoxOfLove(),
-      ];
-  static List<ProductModel> get halloween => [
-        Pastel(),
-        BoxOfLove(),
-        Monster(),
-        Treat(),
-      ];
+  static List<CategoryModel> categories = [];
+  static List<ProductModel> get trends => allProducts.where((e) {
+        return e.type == "trends";
+      }).toList();
+  static List<ProductModel> get halloween => allProducts.where((e) {
+        return e.type == "halloween";
+      }).toList();
 
-  static List<ProductModel> get allProducts {
-    return [...trends, ...halloween];
-  }
+  static List<ProductModel> allProducts = [];
+  static List<OrderModel> orderHistory = [];
 
   static List<ProductModel> get allProductsDistinctByName {
     final seenNames = <String>{};
@@ -69,114 +55,4 @@ class ProductService {
   static List<ProductModel> get getCart {
     return _cart;
   }
-}
-
-class WeddingCategory extends CategoryModel {
-  WeddingCategory({
-    super.name = "for Wedding",
-    super.path = "assets/images/wedding_cat.png",
-  }) {
-    products = [RedRose(), Bouquet(), Pastel()];
-  }
-}
-
-class BoxCategory extends CategoryModel {
-  BoxCategory({
-    super.name = "Flowers in box",
-    super.path = "assets/images/box_cat.png",
-  }) {
-    products = [
-      BoxOfLove(),
-      Bouquet(),
-    ];
-  }
-}
-
-class BirthdayCategory extends CategoryModel {
-  BirthdayCategory({
-    super.name = "for Birthday",
-    super.path = "assets/images/bd_cat.png",
-  }) {
-    products = [BoxOfLove(), Bouquet(), RedRose()];
-  }
-}
-
-class RosesCategory extends CategoryModel {
-  RosesCategory({
-    super.name = "Roses",
-    super.path = "assets/images/rose_cat.png",
-  }) {
-    products = [
-      RedRose(),
-    ];
-  }
-}
-
-class ClassicCategory extends CategoryModel {
-  ClassicCategory({
-    super.name = "Classic",
-    super.path = "assets/images/classic_cat.png",
-  }) {
-    products = [
-      RedRose(),
-      Bouquet(),
-    ];
-  }
-}
-
-class HalloweenCategory extends CategoryModel {
-  HalloweenCategory({
-    super.name = "HalloweenCategory",
-    super.path = "assets/images/hal_cat.png",
-  }) {
-    products = [Monster(), Treat(), Pastel(), BoxOfLove()];
-  }
-}
-
-class RedRose extends ProductModel {
-  RedRose({
-    super.image = "assets/images/red_rose.png",
-    super.name = "101 Red Roses",
-    super.price = 150,
-  });
-}
-
-class Bouquet extends ProductModel {
-  Bouquet({
-    super.image = "assets/images/bouquet.png",
-    super.name = "Bouquet “Autumn”",
-    super.price = 150,
-  });
-}
-
-class Pastel extends ProductModel {
-  Pastel({
-    super.image = "assets/images/classic_cat.png",
-    super.name = "Classic “ Pastel ”",
-    super.price = 150,
-  });
-}
-
-class BoxOfLove extends ProductModel {
-  BoxOfLove({
-    super.image = "assets/images/box_cat.png",
-    super.name = "Box of love",
-    super.price = 150,
-  });
-}
-
-class Monster extends ProductModel {
-  Monster({
-    super.image = "assets/images/monster.png",
-    super.name = "Bouquet “Monster”",
-    super.price = 150,
-  });
-}
-
-class Treat extends ProductModel {
-  Treat({
-    super.image = "assets/images/treat.png",
-    super.name = "Box “trick or treaten”",
-    super.price = 150,
-  });
 }
